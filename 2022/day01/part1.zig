@@ -1,5 +1,6 @@
 const std = @import("std");
 const io = std.io;
+const test_input = @import("./test_input.zig");
 
 fn process_stream(stream: *io.StreamSource) !u32 {
 	const reader = stream.reader();
@@ -35,26 +36,6 @@ pub fn main() !void {
 }
 
 test "AoC" {
-	const test_data =
-		\\1000
-		\\2000
-		\\3000
-		\\
-		\\4000
-		\\
-		\\5000
-		\\6000
-		\\
-		\\7000
-		\\8000
-		\\9000
-		\\
-		\\10000
-		;
-	var srm = io.StreamSource {
-		.const_buffer = io.fixedBufferStream(test_data)
-	};
-
-	const res = try process_stream(&srm);
-	try std.testing.expect(res == 24000);
+	const res = try process_stream(&test_input.stream);
+	try std.testing.expect(res == test_input.part1_value);
 }
