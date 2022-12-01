@@ -52,7 +52,7 @@ pub fn main() !void {
 		break :done array[0] + array[1] + array[2];
 	};
 
-	try stdout.print("{}", .{ res });
+	try stdout.print("{}\n", .{ res });
 }
 
 test "AoC" {

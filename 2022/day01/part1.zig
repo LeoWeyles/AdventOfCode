@@ -32,7 +32,7 @@ pub fn main() !void {
 		break :done try process_stream(&srm);
 	};
 
-	try stdout.print("{}", .{ res });
+	try stdout.print("{}\n", .{ res });
 }
 
 test "AoC" {
