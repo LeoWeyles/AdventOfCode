@@ -2,7 +2,8 @@ const std = @import("std");
 const io = std.io;
 const test_input = @import("./test_input.zig");
 
-fn insert_sorted(array: *[3]u32, x: u32) void {
+fn insert_sorted(array: *[3]u32, x: u32) void
+{
 	if (x >= array[1]) {
 		if (x > array[0]) {
 			array[2] = array[1];
@@ -19,7 +20,8 @@ fn insert_sorted(array: *[3]u32, x: u32) void {
 	}
 }
 
-fn process_stream(stream: *io.StreamSource) ![3]u32 {
+fn process_stream(stream: *io.StreamSource) ![3]u32
+{
 	const reader = stream.reader();
 	var buf: [11]u8 = undefined;
 	var sum: u32 = 0;
@@ -38,7 +40,8 @@ fn process_stream(stream: *io.StreamSource) ![3]u32 {
 	return best;
 }
 
-pub fn main() !void {
+pub fn main() !void
+{
 	const stdout = io.getStdOut().writer();
 
 	const res = done: {
@@ -55,7 +58,8 @@ pub fn main() !void {
 	try stdout.print("{}\n", .{ res });
 }
 
-test "AoC" {
+test "AoC"
+{
 	var res = try process_stream(&test_input.stream);
 	try std.testing.expect(res[0] == test_input.part2_value[0]);
 	try std.testing.expect(res[1] == test_input.part2_value[1]);

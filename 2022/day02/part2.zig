@@ -10,7 +10,8 @@ const RESULT = [3][3]u8 {
 	.{ 0+2,  3+3,   6+1 }, // scissors
 };
 
-fn process_stream(stream: *io.StreamSource) !u32 {
+fn process_stream(stream: *io.StreamSource) !u32
+{
 	const reader = stream.reader();
 	var buf: [4]u8 = undefined;
 	var sum: u32 = 0;
@@ -24,7 +25,8 @@ fn process_stream(stream: *io.StreamSource) !u32 {
 	return sum;
 }
 
-pub fn main() !void {
+pub fn main() !void
+{
 	const stdout = io.getStdOut().writer();
 
 	const res = done: {
@@ -39,7 +41,8 @@ pub fn main() !void {
 	try stdout.print("{}\n", .{ res });
 }
 
-test "AoC" {
+test "AoC"
+{
 	const res = try process_stream(&test_input.stream);
 	try std.testing.expect(res == test_input.part2_value);
 }

@@ -2,7 +2,8 @@ const std = @import("std");
 const io = std.io;
 const test_input = @import("./test_input.zig");
 
-fn process_stream(stream: *io.StreamSource) !u32 {
+fn process_stream(stream: *io.StreamSource) !u32
+{
 	const reader = stream.reader();
 	var buf: [11]u8 = undefined;
 	var sum: u32 = 0;
@@ -10,18 +11,18 @@ fn process_stream(stream: *io.StreamSource) !u32 {
 
 	while (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line| {
 		if (line.len == 0) {
-			if (maxsum < sum)
-				maxsum = sum;
+			maxsum = @max(maxsum, sum);
 			sum = 0;
 			continue;
 		}
 		sum += try std.fmt.parseUnsigned(u32, line, 10);
 	}
 
-	return if (maxsum >= sum) maxsum else sum;
+	return @max(maxsum, sum);
 }
 
-pub fn main() !void {
+pub fn main() !void
+{
 	const stdout = io.getStdOut().writer();
 
 	const res = done: {
@@ -35,7 +36,8 @@ pub fn main() !void {
 	try stdout.print("{}\n", .{ res });
 }
 
-test "AoC" {
+test "AoC"
+{
 	const res = try process_stream(&test_input.stream);
 	try std.testing.expect(res == test_input.part1_value);
 }
