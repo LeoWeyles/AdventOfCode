@@ -1,0 +1,7 @@
+#!/bin/env perl
+my $count = 0;
+while (<>) {
+	m/^(\d+)-(\d+),(\d+)-(\d+)$/ and
+		$count += ($1 <= $3 && $2 >= $4) || ($3 <= $1 && $4 >= $2);
+}
+print("$count\n");
