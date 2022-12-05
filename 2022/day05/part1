@@ -1,0 +1,9 @@
+#!/bin/env ruby
+require_relative "main"
+
+main() do
+	|to, from, n|
+	n.times do
+		to << from.pop()
+	end
+end
