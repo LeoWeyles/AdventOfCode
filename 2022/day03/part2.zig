@@ -1,6 +1,4 @@
 const std = @import("std");
-const mem = std.mem;
-const io = std.io;
 const util = @import("./util.zig");
 
 fn parse_rucksack(line: []const u8) util.RuckSack
@@ -11,7 +9,7 @@ fn parse_rucksack(line: []const u8) util.RuckSack
 	return res;
 }
 
-fn parse_group(reader: io.StreamSource.Reader) !?u6
+fn parse(reader: std.io.StreamSource.Reader) !?u32
 {
 	var buf: [util.LINE_MAX]u8 = undefined;
 
@@ -32,35 +30,12 @@ fn parse_group(reader: io.StreamSource.Reader) !?u6
 	return null;
 }
 
-fn process_stream(stream: *io.StreamSource) !u32
-{
-	const reader = stream.reader();
-	var sum: u32 = 0;
-
-	while (try parse_group(reader)) |priority|
-		sum += priority;
-
-	return sum;
-}
-
 pub fn main() !void
 {
-	const stdout = io.getStdOut().writer();
-
-	const res = done: {
-		var srm = io.StreamSource {
-			.file = try std.fs.cwd().openFile("input.txt", .{ })
-		};
-		defer srm.file.close();
-
-		break :done try process_stream(&srm);
-	};
-
-	try stdout.print("{}\n", .{ res });
+	return util.main(parse);
 }
 
 test "AoC"
 {
-	const res = try process_stream(&util.test_input.stream);
-	try std.testing.expect(res == util.test_input.part2_value);
+	return util.run_test(true, parse);
 }

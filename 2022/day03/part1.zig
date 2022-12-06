@@ -1,5 +1,4 @@
 const std = @import("std");
-const io = std.io;
 const util = @import("./util.zig");
 
 fn find_priority(line: []const u8) u32
@@ -21,36 +20,20 @@ fn find_priority(line: []const u8) u32
 	return 0;
 }
 
-fn process_stream(stream: *io.StreamSource) !u32
+fn parse(reader: std.io.StreamSource.Reader) !?u32
 {
-	const reader = stream.reader();
 	var buf: [util.LINE_MAX]u8 = undefined;
-	var sum: u32 = 0;
-
-	while (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line|
-		sum += find_priority(line);
-
-	return sum;
+	if (try reader.readUntilDelimiterOrEof(&buf, '\n')) |line|
+		return find_priority(line);
+	return null;
 }
 
 pub fn main() !void
 {
-	const stdout = io.getStdOut().writer();
-
-	const res = done: {
-		var srm = io.StreamSource {
-			.file = try std.fs.cwd().openFile("input.txt", .{ })
-		};
-		defer srm.file.close();
-
-		break :done try process_stream(&srm);
-	};
-
-	try stdout.print("{}\n", .{ res });
+	return util.main(parse);
 }
 
 test "AoC"
 {
-	const res = try process_stream(&util.test_input.stream);
-	try std.testing.expect(res == util.test_input.part1_value);
+	return util.run_test(false, parse);
 }
