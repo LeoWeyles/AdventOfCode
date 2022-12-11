@@ -1,0 +1,28 @@
+#!/bin/env perl
+use strict;
+
+my $cycle = 0;
+my $check_cycle = 20;
+
+my $xreg = 1;
+
+my $sum = 0;
+
+my sub tick {
+	return unless ++$cycle == $check_cycle;
+	$sum += $xreg * $cycle;
+	$check_cycle += 40;
+}
+
+while (<>) {
+	if (m/^addx (-?\d+)/) {
+		tick();
+		tick();
+		$xreg += $1;
+	}
+	elsif (m/^noop/) {
+		tick();
+	}
+}
+
+print("$sum\n");
