@@ -1,0 +1,49 @@
+#!/bin/env perl
+use strict;
+
+my (@trees, $cmax, $rmax, $count);
+
+my sub is_hvisible {
+	my ($height, $row, $start, $end) = @_;
+	for ($start .. $end) {
+		return 0 if $trees[$row][$_] >= $height;
+	}
+	return 1;
+}
+
+my sub is_vvisible {
+	my ($height, $col, $start, $end) = @_;
+	for ($start .. $end) {
+		return 0 if $trees[$_][$col] >= $height;
+	}
+	return 1;
+}
+
+my sub is_visible {
+	my ($row, $col) = @_;
+	my $height = $trees[$row][$col];
+	return
+		is_hvisible($height, $row, 0,      $col-1) ||
+		is_hvisible($height, $row, $col+1, $cmax)  ||
+		is_vvisible($height, $col, 0,      $row-1) ||
+		is_vvisible($height, $col, $row+1, $rmax);
+}
+
+while (<>) {
+	chomp();
+	push(@trees, [ split('') ]);
+}
+$cmax = $#trees;
+$rmax = $#{$trees[0]};
+
+# outer trees are always visible
+$count = ($cmax << 1) + ($rmax << 1);
+
+# count inner trees
+for my $row (1 .. $rmax-1) {
+	for my $col (1 .. $cmax-1) {
+		$count += is_visible($row, $col);
+	}
+}
+
+print("$count\n");

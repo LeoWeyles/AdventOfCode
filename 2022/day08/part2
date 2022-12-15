@@ -1,0 +1,49 @@
+#!/bin/env perl
+use strict;
+
+my (@trees, $cmax, $rmax, $res);
+
+my sub hdist {
+	my ($height, $row, $start, $end, $inc) = @_;
+	my $i;
+	for ($i = $start; $i != $end; $i += $inc) {
+		last unless $trees[$row][$i] < $height;
+	}
+	return $i + $inc - $start;
+}
+
+my sub vdist {
+	my ($height, $col, $start, $end, $inc) = @_;
+	my $i;
+	for ($i = $start; $i != $end; $i += $inc) {
+		last unless $trees[$i][$col] < $height;
+	}
+	return $i + $inc - $start;
+}
+
+my sub score {
+	my ($row, $col) = @_;
+	my $height = $trees[$row][$col];
+	return
+		-hdist($height, $row, $col-1, 0,     -1) *
+		+hdist($height, $row, $col+1, $cmax, +1) *
+		-vdist($height, $col, $row-1, 0,     -1) *
+		+vdist($height, $col, $row+1, $rmax, +1);
+}
+
+while (<>) {
+	chomp();
+	push(@trees, [ split('') ]);
+}
+$cmax = $#trees;
+$rmax = $#{$trees[0]};
+
+$res = 0;
+for my $row (1 .. $rmax-1) {
+	for my $col (1 .. $cmax-1) {
+		my $s = score($row, $col);
+		$res = $s if $s > $res;
+	}
+}
+
+print("$res\n");
