@@ -1,0 +1,13 @@
+#!/bin/env ruby
+require_relative "impl"
+
+SIZE_LIMIT = 100000
+
+main do
+	|parser|
+	res = 0
+	for dir in parser.dirs
+		res += dir.size if dir.size <= SIZE_LIMIT
+	end
+	res
+end
