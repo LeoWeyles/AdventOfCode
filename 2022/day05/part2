@@ -1,0 +1,7 @@
+#!/bin/env ruby
+require_relative "main"
+
+main() do
+	|to, from, n|
+	to.concat from.pop(n)
+end
