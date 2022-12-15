@@ -1,0 +1,25 @@
+#!/bin/env ruby
+require_relative "impl"
+
+class Part2 < Day11
+	def worry_level(item)
+		return item % @mod
+	end
+
+	def set_modulo
+		@mod = 1
+		for monkey in @monkeys
+			@mod *= monkey.test
+		end
+	end
+end
+
+solver = Part2.new()
+
+$stdin.each_line do
+	|line|
+	solver.parse(line)
+end
+solver.set_modulo()
+
+puts solver.run(10000)

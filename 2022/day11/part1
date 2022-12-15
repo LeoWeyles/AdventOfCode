@@ -1,0 +1,17 @@
+#!/bin/env ruby
+require_relative "impl"
+
+class Part1 < Day11
+	def worry_level(item)
+		return item / 3
+	end
+end
+
+solver = Part1.new()
+
+$stdin.each_line do
+	|line|
+	solver.parse(line)
+end
+
+puts solver.run(20)
