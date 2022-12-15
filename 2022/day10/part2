@@ -1,0 +1,25 @@
+#!/bin/env perl
+use strict;
+
+my $cycle = 0;
+my $xreg = 1;
+
+my sub tick {
+	my $pos = $cycle++ % 40;
+
+	my $dif = $pos - $xreg;
+	print($dif >= -1 && $dif <= 1 ? '#' : '.');
+
+	print "\n" if $pos == 39;
+}
+
+while (<>) {
+	if (m/^addx (-?\d+)/) {
+		tick();
+		tick();
+		$xreg += $1;
+	}
+	elsif (m/^noop/) {
+		tick();
+	}
+}
